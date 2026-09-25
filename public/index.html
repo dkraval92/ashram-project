@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ananda Ashram | The Ultimate Journey</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Globe.gl script -->
     <script src="https://unpkg.com/globe.gl"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
@@ -28,8 +29,11 @@
         .pulse-logo { animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* Full Screen Home Fix */
         #home { height: calc(100vh - 76px); } 
+
+        /* Globe Meditation Icon Style */
+        .globe-marker { font-size: 28px; text-shadow: 0 0 15px #d4af37; cursor: pointer; transform: translate(-50%, -50%); transition: transform 0.3s; }
+        .globe-marker:hover { transform: translate(-50%, -50%) scale(1.3); }
     </style>
 </head>
 <body class="antialiased">
@@ -38,8 +42,6 @@
     <nav class="bg-black/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-800 h-[76px] flex items-center">
         <div class="max-w-7xl w-full mx-auto flex justify-between items-center px-6">
             <h1 class="text-3xl text-gold tracking-widest uppercase cursor-pointer" onclick="showPage('home')">Ananda</h1>
-            
-            <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-6 text-sm tracking-widest uppercase font-semibold items-center">
                 <button onclick="showPage('home')" class="hover:text-gold transition">Home</button>
                 <button onclick="showPage('programs')" class="hover:text-gold transition">Programs</button>
@@ -47,13 +49,10 @@
                 <button onclick="showPage('contact-us')" class="hover:text-gold transition">Contact</button>
                 <button onclick="showPage('join')" class="border border-gold text-gold px-5 py-2 hover:bg-gold hover:text-black transition">Join Us</button>
             </div>
-
-            <!-- Mobile Menu Button -->
             <button class="md:hidden text-gold text-3xl focus:outline-none" onclick="toggleMobileMenu()">☰</button>
         </div>
     </nav>
 
-    <!-- Mobile Dropdown Menu -->
     <div id="mobile-menu" class="hidden fixed top-[76px] left-0 w-full bg-black/95 border-b border-gray-800 flex-col text-center space-y-6 py-8 z-40 uppercase tracking-widest text-sm font-semibold">
         <button onclick="showPage('home'); toggleMobileMenu()" class="block w-full hover:text-gold">Home</button>
         <button onclick="showPage('programs'); toggleMobileMenu()" class="block w-full hover:text-gold">Programs</button>
@@ -62,7 +61,7 @@
         <button onclick="showPage('join'); toggleMobileMenu()" class="block w-full text-gold">Join Us</button>
     </div>
 
-    <!-- SUCCESS ANIMATION SCREEN -->
+    <!-- SUCCESS SCREEN -->
     <div id="success-screen" class="fixed inset-0 flex-col justify-center items-center text-center">
         <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&q=80&w=500" class="w-48 h-48 rounded-full object-cover pulse-logo border-4 border-gold shadow-2xl mb-8">
         <h2 class="text-4xl md:text-5xl serif text-gold mb-4 italic">Registration Successful</h2>
@@ -71,7 +70,7 @@
 
     <div class="pt-[76px] pb-12">
         
-        <!-- PAGE 1: HOME (No Scroll, Fits Screen) -->
+        <!-- HOME -->
         <div id="home" class="page-section active relative w-full flex flex-col justify-center items-center text-center px-4">
             <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=1920&q=80" alt="Meditation" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0 pointer-events-none">
             <div class="relative z-10">
@@ -81,11 +80,10 @@
             </div>
         </div>
 
-        <!-- PAGE 2: PROGRAMS -->
+        <!-- PROGRAMS -->
         <div id="programs" class="page-section max-w-7xl mx-auto px-6 mt-10">
             <h2 class="text-4xl md:text-5xl text-gold mb-12 serif text-center border-b border-gray-800 pb-4">Sacred Dimensions</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Vipassana -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-gold transition duration-500 group cursor-pointer" onclick="openModal('modal-vipassana')">
                     <div class="overflow-hidden h-56"><img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
                     <div class="p-6 text-center">
@@ -93,7 +91,6 @@
                         <p class="text-gray-400 text-xs tracking-widest uppercase">Click to Explore</p>
                     </div>
                 </div>
-                <!-- Dynamic -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-gold transition duration-500 group cursor-pointer" onclick="openModal('modal-dynamic')">
                     <div class="overflow-hidden h-56"><img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
                     <div class="p-6 text-center">
@@ -101,7 +98,6 @@
                         <p class="text-gray-400 text-xs tracking-widest uppercase">Click to Explore</p>
                     </div>
                 </div>
-                <!-- Zen -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-gold transition duration-500 group cursor-pointer" onclick="openModal('modal-zen')">
                     <div class="overflow-hidden h-56"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
                     <div class="p-6 text-center">
@@ -112,14 +108,13 @@
             </div>
         </div>
 
-        <!-- PAGE 3: GALLERY (12 Photos with Lightbox) -->
+        <!-- GALLERY -->
         <div id="gallery" class="page-section max-w-7xl mx-auto px-6 mt-10">
             <h2 class="text-4xl md:text-5xl text-gold mb-10 serif text-center border-b border-gray-800 pb-4">Ashram Glimpses</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <!-- 12 Real Ashram / Nature / Meditation Photos -->
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1510797215324-95aa89f43c33?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
-                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1590396752003-74fccecc4e7d?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
                 
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
@@ -129,12 +124,12 @@
                 
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
-                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
-                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1552089123-2d2622442b4a?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
             </div>
         </div>
 
-        <!-- PAGE 4: CONTACT & 3D GLOBE -->
+        <!-- CONTACT & GLOBE -->
         <div id="contact-us" class="page-section max-w-7xl mx-auto px-6 mt-10">
             <h2 class="text-4xl md:text-5xl text-gold mb-10 serif text-center border-b border-gray-800 pb-4">Global Sanctuaries</h2>
             <div class="flex flex-col md:flex-row items-center gap-12">
@@ -146,40 +141,39 @@
                     <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
                         <h3 class="text-2xl text-gold serif mb-3">Our Global Presence</h3>
                         <ul class="text-gray-400 space-y-2">
-                            <li>📍 Rishikesh, India (Main Center)</li>
-                            <li>📍 Pune, India (Osho Vibe)</li>
-                            <li>📍 Bali, Indonesia (Zen Retreat)</li>
-                            <li>📍 California, USA (Healing Center)</li>
+                            <li>🧘🏽‍♂️ Rishikesh, India (Main Center)</li>
+                            <li>🧘🏽‍♂️ Pune, India (Osho Vibe)</li>
+                            <li>🧘🏽‍♂️ Bali, Indonesia (Zen Retreat)</li>
+                            <li>🧘🏽‍♂️ California, USA (Healing Center)</li>
                         </ul>
                     </div>
                 </div>
-                <!-- Globe Container -->
-                <div class="w-full md:w-1/2 h-[350px] md:h-[450px] rounded-xl overflow-hidden border border-gray-800 bg-gray-900 flex justify-center items-center" id="globe-container">
-                    <!-- Globe renders here -->
+                <div class="w-full md:w-1/2 h-[450px] rounded-xl overflow-hidden border border-gray-800 bg-gray-900 flex justify-center items-center" id="globe-container">
+                    <!-- Globe loads here -->
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 5: JOIN (FORM) -->
+        <!-- JOIN FORM -->
         <div id="join" class="page-section max-w-xl mx-auto px-6 mt-10">
             <div class="bg-gray-900 p-8 md:p-10 rounded-xl shadow-2xl border border-gray-800">
                 <h2 class="text-3xl md:text-4xl text-gold mb-8 serif text-center">Initiate Your Journey</h2>
                 <form id="joinForm" class="space-y-5">
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
-                        <input type="text" id="name" required class="auto-cap w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold transition">
+                        <input type="text" id="name" required class="auto-cap w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
                     </div>
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
-                        <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold transition">
+                        <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
                     </div>
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Contact Number</label>
-                        <input type="text" id="contactNum" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold transition">
+                        <input type="text" id="contactNum" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
                     </div>
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Select Path</label>
-                        <select id="program" class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold transition">
+                        <select id="program" class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
                             <option>Vipassana Maun (7 Days)</option>
                             <option>Dynamic Catharsis (3 Days)</option>
                             <option>Zen & Tea (5 Days)</option>
@@ -192,7 +186,7 @@
             </div>
         </div>
 
-        <!-- PAGE 6: GUIDELINES -->
+        <!-- GUIDELINES -->
         <div id="guidelines" class="page-section max-w-4xl mx-auto px-6 mt-10">
             <h2 class="text-4xl md:text-5xl text-gold mb-8 serif text-center italic">Welcome to the Inner Circle</h2>
             <div class="bg-gray-900 p-6 md:p-8 rounded-lg border border-gray-800 space-y-6 text-sm md:text-base">
@@ -210,131 +204,123 @@
                 </ul>
             </div>
         </div>
-
     </div>
 
-    <!-- PROGRAM MODALS -->
-    <!-- 1. Vipassana -->
+    <!-- MODALS & LIGHTBOX (Same as before) -->
     <div id="modal-vipassana" class="modal fixed inset-0 items-center justify-center p-4">
         <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
             <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=1000" class="w-full h-48 md:h-64 object-cover opacity-80">
             <div class="p-6 md:p-8">
                 <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Vipassana Maun</h3>
-                <p class="text-gray-300 mb-6 text-sm md:text-base leading-relaxed">Absolute silence. No eye contact, no gestures. You sit, you breathe, and you watch the mind dissolve. This ancient technique requires immense courage to face your own inner noise until it fades into ultimate peace.</p>
-                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black w-full md:w-auto uppercase tracking-widest text-sm">Join This Path</button>
+                <p class="text-gray-300 mb-6 leading-relaxed">Absolute silence. No eye contact, no gestures. You sit, you breathe, and you watch the mind dissolve.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black uppercase tracking-widest text-sm">Join This Path</button>
             </div>
         </div>
     </div>
-
-    <!-- 2. Dynamic -->
+    
     <div id="modal-dynamic" class="modal fixed inset-0 items-center justify-center p-4">
         <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
             <img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1000" class="w-full h-48 md:h-64 object-cover opacity-80">
             <div class="p-6 md:p-8">
                 <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Dynamic Catharsis</h3>
-                <p class="text-gray-300 mb-6 text-sm md:text-base leading-relaxed">A chaotic, fast-paced meditation designed to break the physical and psychological armor of modern humans. Involves deep breathing, screaming, jumping, and finally freezing into absolute silence. Highly transformative.</p>
-                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black w-full md:w-auto uppercase tracking-widest text-sm">Join This Path</button>
+                <p class="text-gray-300 mb-6 leading-relaxed">A chaotic, fast-paced meditation designed to break the physical and psychological armor of modern humans.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black uppercase tracking-widest text-sm">Join This Path</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. Zen & Tea -->
     <div id="modal-zen" class="modal fixed inset-0 items-center justify-center p-4">
         <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
             <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000" class="w-full h-48 md:h-64 object-cover opacity-80">
             <div class="p-6 md:p-8">
                 <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Zen & Tea</h3>
-                <p class="text-gray-300 mb-6 text-sm md:text-base leading-relaxed">Experience the profound depth of ordinary actions. Sipping tea becomes a meditation. Walking becomes a dance. This path teaches you to live completely in the present moment with intense awareness and grace.</p>
-                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black w-full md:w-auto uppercase tracking-widest text-sm">Join This Path</button>
+                <p class="text-gray-300 mb-6 leading-relaxed">Experience the profound depth of ordinary actions. Sipping tea becomes a meditation.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black uppercase tracking-widest text-sm">Join This Path</button>
             </div>
         </div>
     </div>
 
-    <!-- LIGHTBOX FOR GALLERY -->
     <div id="lightbox" class="modal fixed inset-0 items-center justify-center p-4" onclick="closeLightbox(event)">
         <button class="absolute top-4 right-6 text-white hover:text-gold text-5xl z-20">&times;</button>
         <img id="lightbox-img" src="" class="max-h-[85vh] max-w-[95vw] object-contain border border-gold rounded shadow-2xl relative z-10">
     </div>
 
     <script>
-        // Mobile Menu Toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
             menu.classList.toggle('flex');
         }
 
-        // 3D Globe Initialization
         let globeInit = false;
         function initGlobe() {
             const globeDiv = document.getElementById('globe-container');
-            if(globeInit) return; // Prevent double rendering
+            if(globeInit) return;
             
-            // Getting accurate width & height after display:block
-            const width = globeDiv.offsetWidth;
-            const height = globeDiv.offsetHeight;
+            // Fixed logic to ensure PC gets exact width/height
+            const width = globeDiv.clientWidth || document.documentElement.clientWidth / 2;
+            const height = globeDiv.clientHeight || 450;
             
-            globeDiv.innerHTML = ""; // Clear loader if any
+            globeDiv.innerHTML = ""; 
             const world = Globe()(globeDiv)
                 .width(width)
                 .height(height)
                 .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
                 .backgroundColor('rgba(0,0,0,0)')
-                .pointsData([
-                    {lat: 30.0869, lng: 78.2676, size: 0.7, color: '#d4af37', label: 'Rishikesh'},
-                    {lat: 18.5204, lng: 73.8567, size: 0.5, color: '#d4af37'},
-                    {lat: -8.4095, lng: 115.1889, size: 0.5, color: '#d4af37'},
-                    {lat: 36.7783, lng: -119.4179, size: 0.5, color: '#d4af37'}
+                // Yellow lines replaced by HTML Meditation Icon
+                .htmlElementsData([
+                    {lat: 30.0869, lng: 78.2676}, // Rishikesh
+                    {lat: 18.5204, lng: 73.8567}, // Pune
+                    {lat: -8.4095, lng: 115.1889}, // Bali
+                    {lat: 36.7783, lng: -119.4179} // California
                 ])
-                .pointAltitude('size')
-                .pointColor('color');
+                .htmlElement(d => {
+                    const el = document.createElement('div');
+                    el.innerHTML = '🧘🏽‍♂️'; 
+                    el.className = 'globe-marker';
+                    return el;
+                });
                 
             world.controls().autoRotate = true;
             world.controls().autoRotateSpeed = 2;
-            world.controls().enableZoom = false; // Prevents scrolling issues on mobile
+            world.controls().enableZoom = false; 
             globeInit = true;
             
-            // Handle window resize for globe
             window.addEventListener('resize', () => {
-                world.width(globeDiv.offsetWidth);
-                world.height(globeDiv.offsetHeight);
+                world.width(globeDiv.clientWidth);
+                world.height(globeDiv.clientHeight);
             });
         }
 
-        // Page Navigation
         function showPage(pageId) {
             document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0);
             
-            // Fix for Globe rendering size (Wait for UI to render display:block)
             if(pageId === 'contact-us') {
+                // 300ms delay taaki page render hone ke baad Globe width set kare (Fix for PC)
                 setTimeout(() => {
                     if(!globeInit) initGlobe();
-                }, 50);
+                }, 300);
             }
         }
 
-        // Modals
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModals() { document.querySelectorAll('.modal').forEach(el => el.classList.remove('active')); }
         
-        // Gallery Lightbox
         function openLightbox(src) {
             document.getElementById('lightbox-img').src = src;
             document.getElementById('lightbox').classList.add('active');
         }
         function closeLightbox(e) {
-            // Close only if clicked outside the image or on the close button
             if(e.target.id === 'lightbox' || e.target.tagName === 'BUTTON') {
                 document.getElementById('lightbox').classList.remove('active');
             }
         }
 
-        // Form Submit handling
         document.getElementById('joinForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btnText = document.getElementById('btnText');
@@ -362,7 +348,6 @@
                     document.getElementById('success-screen').classList.remove('active');
                     showPage('guidelines');
                 }, 3500);
-
             } catch (err) {
                 btnText.innerText = "Error. Try Again.";
             }
