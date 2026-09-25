@@ -5,221 +5,303 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ananda Ashram | The Ultimate Journey</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 3D Globe Library -->
     <script src="https://unpkg.com/globe.gl"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Lato', sans-serif; background-color: #0a0a0a; color: #e5e5e5; overflow-x: hidden; }
         h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
-        .bg-maroon { background-color: #3b000f; }
         .text-gold { color: #d4af37; }
         .border-gold { border-color: #d4af37; }
+        .bg-gold { background-color: #d4af37; }
         
-        .page-section { display: none; animation: fadeIn 0.8s ease-in-out; }
+        .page-section { display: none; animation: fadeIn 0.6s ease-in-out; }
         .page-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Auto Capitalize */
         input.auto-cap { text-transform: capitalize; }
         
-        /* Modal Styles */
-        .modal { display: none; background: rgba(0,0,0,0.9); z-index: 50; }
+        .modal { display: none; background: rgba(0,0,0,0.95); z-index: 60; }
         .modal.active { display: flex; animation: fadeIn 0.4s; }
         
-        /* Success Animation Screen */
-        #success-screen { display: none; z-index: 100; background: #3b000f; }
+        #success-screen { display: none; z-index: 100; background: #2a000a; }
         #success-screen.active { display: flex; animation: fadeIn 0.5s; }
         .pulse-logo { animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* Full Screen Home Fix */
+        #home { height: calc(100vh - 76px); } 
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Navigation -->
-    <nav class="bg-black/80 backdrop-blur-md fixed w-full top-0 z-40 border-b border-gray-800">
-        <div class="max-w-7xl mx-auto flex justify-between items-center p-5">
+    <nav class="bg-black/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-800 h-[76px] flex items-center">
+        <div class="max-w-7xl w-full mx-auto flex justify-between items-center px-6">
             <h1 class="text-3xl text-gold tracking-widest uppercase cursor-pointer" onclick="showPage('home')">Ananda</h1>
-            <div class="hidden md:flex space-x-6 text-sm tracking-widest uppercase font-semibold">
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-6 text-sm tracking-widest uppercase font-semibold items-center">
                 <button onclick="showPage('home')" class="hover:text-gold transition">Home</button>
                 <button onclick="showPage('programs')" class="hover:text-gold transition">Programs</button>
                 <button onclick="showPage('gallery')" class="hover:text-gold transition">Gallery</button>
                 <button onclick="showPage('contact-us')" class="hover:text-gold transition">Contact</button>
-                <button onclick="showPage('join')" class="border border-gold text-gold px-4 py-1 hover:bg-gold hover:text-black transition">Join Us</button>
+                <button onclick="showPage('join')" class="border border-gold text-gold px-5 py-2 hover:bg-gold hover:text-black transition">Join Us</button>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-gold text-3xl focus:outline-none" onclick="toggleMobileMenu()">☰</button>
         </div>
     </nav>
 
-    <!-- SUCCESS ANIMATION SCREEN (Hidden by default) -->
-    <div id="success-screen" class="fixed inset-0 flex-col justify-center items-center text-center">
-        <img src="https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&q=80&w=500" class="w-48 h-48 rounded-full object-cover pulse-logo border-4 border-gold shadow-2xl mb-8">
-        <h2 class="text-5xl serif text-gold mb-4 italic">Registration Successful</h2>
-        <p class="text-xl text-gray-300 tracking-widest uppercase">Be ready for the transformation...</p>
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden fixed top-[76px] left-0 w-full bg-black/95 border-b border-gray-800 flex-col text-center space-y-6 py-8 z-40 uppercase tracking-widest text-sm font-semibold">
+        <button onclick="showPage('home'); toggleMobileMenu()" class="block w-full hover:text-gold">Home</button>
+        <button onclick="showPage('programs'); toggleMobileMenu()" class="block w-full hover:text-gold">Programs</button>
+        <button onclick="showPage('gallery'); toggleMobileMenu()" class="block w-full hover:text-gold">Gallery</button>
+        <button onclick="showPage('contact-us'); toggleMobileMenu()" class="block w-full hover:text-gold">Contact</button>
+        <button onclick="showPage('join'); toggleMobileMenu()" class="block w-full text-gold">Join Us</button>
     </div>
 
-    <div class="pt-24 pb-12">
+    <!-- SUCCESS ANIMATION SCREEN -->
+    <div id="success-screen" class="fixed inset-0 flex-col justify-center items-center text-center">
+        <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&q=80&w=500" class="w-48 h-48 rounded-full object-cover pulse-logo border-4 border-gold shadow-2xl mb-8">
+        <h2 class="text-4xl md:text-5xl serif text-gold mb-4 italic">Registration Successful</h2>
+        <p class="text-lg md:text-xl text-gray-300 tracking-widest uppercase px-4">The universe is ready for your transformation...</p>
+    </div>
+
+    <div class="pt-[76px] pb-12">
         
-        <!-- PAGE 1: HOME -->
-        <div id="home" class="page-section active max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-6xl md:text-8xl text-gold mb-6 serif italic font-light mt-10">Awaken.</h2>
-            <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto tracking-wide">Enter the dimension of pure consciousness. A sacred space designed to break your boundaries.</p>
-            <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&q=80&w=1200" alt="Meditation" class="w-full h-[60vh] object-cover rounded-xl shadow-[0_0_40px_rgba(212,175,55,0.1)] grayscale hover:grayscale-0 transition duration-1000">
+        <!-- PAGE 1: HOME (No Scroll, Fits Screen) -->
+        <div id="home" class="page-section active relative w-full flex flex-col justify-center items-center text-center px-4">
+            <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=1920&q=80" alt="Meditation" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0 pointer-events-none">
+            <div class="relative z-10">
+                <h2 class="text-6xl md:text-9xl text-gold mb-6 serif italic font-light drop-shadow-2xl">Awaken.</h2>
+                <p class="text-lg md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto tracking-widest drop-shadow-lg">Drop the mind. Enter the dimension of pure consciousness at our sacred Himalayan sanctuary.</p>
+                <button onclick="showPage('programs')" class="border border-gold text-gold px-8 py-3 text-lg hover:bg-gold hover:text-black transition tracking-widest uppercase">Explore Paths</button>
+            </div>
         </div>
 
         <!-- PAGE 2: PROGRAMS -->
-        <div id="programs" class="page-section max-w-7xl mx-auto px-6">
-            <h2 class="text-5xl text-gold mb-12 serif text-center border-b border-gray-800 pb-4">Sacred Dimensions</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <!-- Program 1 -->
+        <div id="programs" class="page-section max-w-7xl mx-auto px-6 mt-10">
+            <h2 class="text-4xl md:text-5xl text-gold mb-12 serif text-center border-b border-gray-800 pb-4">Sacred Dimensions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Vipassana -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-gold transition duration-500 group cursor-pointer" onclick="openModal('modal-vipassana')">
-                    <div class="overflow-hidden h-64"><img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
-                    <div class="p-8 text-center">
+                    <div class="overflow-hidden h-56"><img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
+                    <div class="p-6 text-center">
                         <h3 class="text-3xl text-gold mb-2 serif">Vipassana Maun</h3>
-                        <p class="text-gray-400 text-sm tracking-widest uppercase">Click to Explore</p>
+                        <p class="text-gray-400 text-xs tracking-widest uppercase">Click to Explore</p>
                     </div>
                 </div>
-                <!-- Program 2 -->
+                <!-- Dynamic -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-gold transition duration-500 group cursor-pointer" onclick="openModal('modal-dynamic')">
-                    <div class="overflow-hidden h-64"><img src="https://images.unsplash.com/photo-1552089123-2d2622442b4a?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
-                    <div class="p-8 text-center">
+                    <div class="overflow-hidden h-56"><img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
+                    <div class="p-6 text-center">
                         <h3 class="text-3xl text-gold mb-2 serif">Dynamic Catharsis</h3>
-                        <p class="text-gray-400 text-sm tracking-widest uppercase">Click to Explore</p>
+                        <p class="text-gray-400 text-xs tracking-widest uppercase">Click to Explore</p>
                     </div>
                 </div>
-                <!-- Program 3 -->
+                <!-- Zen -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-gold transition duration-500 group cursor-pointer" onclick="openModal('modal-zen')">
-                    <div class="overflow-hidden h-64"><img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
-                    <div class="p-8 text-center">
+                    <div class="overflow-hidden h-56"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
+                    <div class="p-6 text-center">
                         <h3 class="text-3xl text-gold mb-2 serif">Zen & Tea</h3>
-                        <p class="text-gray-400 text-sm tracking-widest uppercase">Click to Explore</p>
+                        <p class="text-gray-400 text-xs tracking-widest uppercase">Click to Explore</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 3: GALLERY -->
-        <div id="gallery" class="page-section max-w-7xl mx-auto px-6">
-            <h2 class="text-5xl text-gold mb-12 serif text-center border-b border-gray-800 pb-4">Ashram Glimpses</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600" class="w-full h-48 object-cover rounded hover:opacity-75 transition">
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600" class="w-full h-48 object-cover rounded hover:opacity-75 transition">
-                <img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=600" class="w-full h-48 object-cover rounded hover:opacity-75 transition col-span-2">
-                <img src="https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&w=600" class="w-full h-48 object-cover rounded hover:opacity-75 transition col-span-2">
-                <img src="https://images.unsplash.com/photo-1528319725582-ddc096101511?auto=format&fit=crop&w=600" class="w-full h-48 object-cover rounded hover:opacity-75 transition">
-                <img src="https://images.unsplash.com/photo-1447452001602-7090c7ab2db3?auto=format&fit=crop&w=600" class="w-full h-48 object-cover rounded hover:opacity-75 transition">
+        <!-- PAGE 3: GALLERY (12 Photos with Lightbox) -->
+        <div id="gallery" class="page-section max-w-7xl mx-auto px-6 mt-10">
+            <h2 class="text-4xl md:text-5xl text-gold mb-10 serif text-center border-b border-gray-800 pb-4">Ashram Glimpses</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- 12 Real Ashram / Nature / Meditation Photos -->
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1510797215324-95aa89f43c33?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1590396752003-74fccecc4e7d?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1528319725582-ddc096101511?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1447452001602-7090c7ab2db3?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
             </div>
         </div>
 
         <!-- PAGE 4: CONTACT & 3D GLOBE -->
-        <div id="contact-us" class="page-section max-w-7xl mx-auto px-6">
-            <h2 class="text-5xl text-gold mb-12 serif text-center border-b border-gray-800 pb-4">Global Sanctuaries</h2>
+        <div id="contact-us" class="page-section max-w-7xl mx-auto px-6 mt-10">
+            <h2 class="text-4xl md:text-5xl text-gold mb-10 serif text-center border-b border-gray-800 pb-4">Global Sanctuaries</h2>
             <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="w-full md:w-1/2 space-y-8">
-                    <div>
-                        <h3 class="text-3xl text-gold serif">Ananda Headquarters</h3>
-                        <p class="text-gray-400 mt-2">Mystic Hills, Himalayas<br>contact@ananda-ashram.org<br>+91 98765 43210</p>
+                <div class="w-full md:w-1/2 space-y-8 text-center md:text-left">
+                    <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+                        <h3 class="text-2xl text-gold serif mb-2">Ananda Headquarters</h3>
+                        <p class="text-gray-400">Mystic Hills, Himalayas<br>contact@ananda-ashram.org<br>+91 98765 43210</p>
                     </div>
-                    <div>
-                        <h3 class="text-3xl text-gold serif">Our Presence</h3>
-                        <ul class="text-gray-400 mt-2 space-y-2">
+                    <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
+                        <h3 class="text-2xl text-gold serif mb-3">Our Global Presence</h3>
+                        <ul class="text-gray-400 space-y-2">
                             <li>📍 Rishikesh, India (Main Center)</li>
                             <li>📍 Pune, India (Osho Vibe)</li>
-                            <li>📍 Bali, Indonesia (Zen Center)</li>
-                            <li>📍 California, USA (Healing Retreat)</li>
+                            <li>📍 Bali, Indonesia (Zen Retreat)</li>
+                            <li>📍 California, USA (Healing Center)</li>
                         </ul>
                     </div>
                 </div>
-                <div class="w-full md:w-1/2 h-[400px] rounded-xl overflow-hidden cursor-move border border-gray-800" id="globe-container">
-                    <!-- 3D Globe renders here -->
+                <!-- Globe Container -->
+                <div class="w-full md:w-1/2 h-[350px] md:h-[450px] rounded-xl overflow-hidden border border-gray-800 bg-gray-900 flex justify-center items-center" id="globe-container">
+                    <!-- Globe renders here -->
                 </div>
             </div>
         </div>
 
         <!-- PAGE 5: JOIN (FORM) -->
-        <div id="join" class="page-section max-w-xl mx-auto px-6">
-            <div class="bg-gray-900 p-10 rounded-xl shadow-2xl border border-gray-800">
-                <h2 class="text-4xl text-gold mb-8 serif text-center">Initiate Your Journey</h2>
-                <form id="joinForm" class="space-y-6">
+        <div id="join" class="page-section max-w-xl mx-auto px-6 mt-10">
+            <div class="bg-gray-900 p-8 md:p-10 rounded-xl shadow-2xl border border-gray-800">
+                <h2 class="text-3xl md:text-4xl text-gold mb-8 serif text-center">Initiate Your Journey</h2>
+                <form id="joinForm" class="space-y-5">
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
-                        <input type="text" id="name" required class="auto-cap w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
+                        <input type="text" id="name" required class="auto-cap w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold transition">
                     </div>
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
-                        <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
+                        <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold transition">
                     </div>
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Contact Number</label>
-                        <input type="text" id="contactNum" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
+                        <input type="text" id="contactNum" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold transition">
                     </div>
                     <div>
                         <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Select Path</label>
-                        <select id="program" class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
+                        <select id="program" class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold transition">
                             <option>Vipassana Maun (7 Days)</option>
                             <option>Dynamic Catharsis (3 Days)</option>
                             <option>Zen & Tea (5 Days)</option>
                         </select>
                     </div>
-                    <button type="submit" id="submitBtn" class="w-full bg-gold text-black font-bold p-4 uppercase tracking-widest hover:bg-white transition flex justify-center">
+                    <button type="submit" id="submitBtn" class="w-full bg-gold text-black font-bold p-4 uppercase tracking-widest hover:bg-white transition flex justify-center mt-4">
                         <span id="btnText">Join Ashram</span>
                     </button>
                 </form>
             </div>
         </div>
 
-        <!-- PAGE 6: GUIDELINES (Opens after success) -->
-        <div id="guidelines" class="page-section max-w-4xl mx-auto px-6">
-            <h2 class="text-5xl text-gold mb-8 serif text-center italic">Welcome to the Inner Circle</h2>
-            <div class="bg-gray-900 p-8 rounded-lg border border-gray-800 space-y-6">
-                <h3 class="text-3xl text-white serif border-b border-gray-800 pb-2">What to Bring</h3>
+        <!-- PAGE 6: GUIDELINES -->
+        <div id="guidelines" class="page-section max-w-4xl mx-auto px-6 mt-10">
+            <h2 class="text-4xl md:text-5xl text-gold mb-8 serif text-center italic">Welcome to the Inner Circle</h2>
+            <div class="bg-gray-900 p-6 md:p-8 rounded-lg border border-gray-800 space-y-6 text-sm md:text-base">
+                <h3 class="text-2xl md:text-3xl text-white serif border-b border-gray-800 pb-2">What to Bring</h3>
                 <ul class="list-disc pl-5 text-gray-400 space-y-2">
-                    <li>Loose, comfortable clothing (Maroon or White preferred).</li>
-                    <li>A water bottle and personal toiletries.</li>
-                    <li>Drop your mobile phones, laptops, and books at the reception.</li>
+                    <li>Loose, comfortable clothing (Maroon or White robes provided).</li>
+                    <li>A water bottle and personal organic toiletries.</li>
+                    <li>Drop your mobile phones, laptops, and books at the reception (Mandatory).</li>
                 </ul>
-                <h3 class="text-3xl text-white serif border-b border-gray-800 pb-2 mt-8">Ashram Services (Seva)</h3>
+                <h3 class="text-2xl md:text-3xl text-white serif border-b border-gray-800 pb-2 mt-8">Ashram Services (Seva)</h3>
                 <ul class="list-disc pl-5 text-gray-400 space-y-2">
-                    <li>Pure vegetarian organic meals served 3 times a day.</li>
-                    <li>Personalized spiritual counseling.</li>
-                    <li>Access to the Zen Library and Silent Lake.</li>
+                    <li>Pure organic sattvic meals served 3 times a day.</li>
+                    <li>Personalized spiritual counseling with Swamis.</li>
+                    <li>Access to the Zen Library, Bamboo Forest, and Silent Lake.</li>
                 </ul>
             </div>
         </div>
 
     </div>
 
-    <!-- MODALS FOR PROGRAMS -->
+    <!-- PROGRAM MODALS -->
+    <!-- 1. Vipassana -->
     <div id="modal-vipassana" class="modal fixed inset-0 items-center justify-center p-4">
-        <div class="bg-black max-w-3xl w-full rounded-xl border border-gold overflow-hidden relative">
-            <button onclick="closeModals()" class="absolute top-4 right-4 text-white hover:text-gold text-3xl z-10">&times;</button>
-            <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=1000" class="w-full h-64 object-cover opacity-80">
-            <div class="p-8">
-                <h3 class="text-4xl text-gold serif mb-4">Vipassana Maun</h3>
-                <p class="text-gray-300 mb-4">Absolute silence. No eye contact, no gestures. You sit, you breathe, and you watch the mind dissolve. This ancient technique requires immense courage to face your own inner noise until it fades into ultimate peace.</p>
-                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black">Join This Path</button>
+        <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
+            <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=1000" class="w-full h-48 md:h-64 object-cover opacity-80">
+            <div class="p-6 md:p-8">
+                <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Vipassana Maun</h3>
+                <p class="text-gray-300 mb-6 text-sm md:text-base leading-relaxed">Absolute silence. No eye contact, no gestures. You sit, you breathe, and you watch the mind dissolve. This ancient technique requires immense courage to face your own inner noise until it fades into ultimate peace.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black w-full md:w-auto uppercase tracking-widest text-sm">Join This Path</button>
             </div>
         </div>
     </div>
 
-    <!-- (Similar Modals for Dynamic and Zen can be added if needed, I kept logic ready for them) -->
-    
+    <!-- 2. Dynamic -->
+    <div id="modal-dynamic" class="modal fixed inset-0 items-center justify-center p-4">
+        <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
+            <img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1000" class="w-full h-48 md:h-64 object-cover opacity-80">
+            <div class="p-6 md:p-8">
+                <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Dynamic Catharsis</h3>
+                <p class="text-gray-300 mb-6 text-sm md:text-base leading-relaxed">A chaotic, fast-paced meditation designed to break the physical and psychological armor of modern humans. Involves deep breathing, screaming, jumping, and finally freezing into absolute silence. Highly transformative.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black w-full md:w-auto uppercase tracking-widest text-sm">Join This Path</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Zen & Tea -->
+    <div id="modal-zen" class="modal fixed inset-0 items-center justify-center p-4">
+        <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
+            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000" class="w-full h-48 md:h-64 object-cover opacity-80">
+            <div class="p-6 md:p-8">
+                <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Zen & Tea</h3>
+                <p class="text-gray-300 mb-6 text-sm md:text-base leading-relaxed">Experience the profound depth of ordinary actions. Sipping tea becomes a meditation. Walking becomes a dance. This path teaches you to live completely in the present moment with intense awareness and grace.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black w-full md:w-auto uppercase tracking-widest text-sm">Join This Path</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX FOR GALLERY -->
+    <div id="lightbox" class="modal fixed inset-0 items-center justify-center p-4" onclick="closeLightbox(event)">
+        <button class="absolute top-4 right-6 text-white hover:text-gold text-5xl z-20">&times;</button>
+        <img id="lightbox-img" src="" class="max-h-[85vh] max-w-[95vw] object-contain border border-gold rounded shadow-2xl relative z-10">
+    </div>
+
     <script>
-        // Init 3D Globe
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
+        // 3D Globe Initialization
+        let globeInit = false;
         function initGlobe() {
             const globeDiv = document.getElementById('globe-container');
-            if(globeDiv.innerHTML !== "") return; // Already loaded
+            if(globeInit) return; // Prevent double rendering
+            
+            // Getting accurate width & height after display:block
+            const width = globeDiv.offsetWidth;
+            const height = globeDiv.offsetHeight;
+            
+            globeDiv.innerHTML = ""; // Clear loader if any
             const world = Globe()(globeDiv)
+                .width(width)
+                .height(height)
                 .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
                 .backgroundColor('rgba(0,0,0,0)')
                 .pointsData([
-                    {lat: 30.0869, lng: 78.2676, size: 0.5, color: '#d4af37'}, // Rishikesh
-                    {lat: 18.5204, lng: 73.8567, size: 0.5, color: '#d4af37'}, // Pune
-                    {lat: -8.4095, lng: 115.1889, size: 0.5, color: '#d4af37'}, // Bali
-                    {lat: 36.7783, lng: -119.4179, size: 0.5, color: '#d4af37'} // Cali
+                    {lat: 30.0869, lng: 78.2676, size: 0.7, color: '#d4af37', label: 'Rishikesh'},
+                    {lat: 18.5204, lng: 73.8567, size: 0.5, color: '#d4af37'},
+                    {lat: -8.4095, lng: 115.1889, size: 0.5, color: '#d4af37'},
+                    {lat: 36.7783, lng: -119.4179, size: 0.5, color: '#d4af37'}
                 ])
                 .pointAltitude('size')
                 .pointColor('color');
+                
             world.controls().autoRotate = true;
             world.controls().autoRotateSpeed = 2;
+            world.controls().enableZoom = false; // Prevents scrolling issues on mobile
+            globeInit = true;
+            
+            // Handle window resize for globe
+            window.addEventListener('resize', () => {
+                world.width(globeDiv.offsetWidth);
+                world.height(globeDiv.offsetHeight);
+            });
         }
 
         // Page Navigation
@@ -227,14 +309,32 @@
             document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0);
-            if(pageId === 'contact-us') setTimeout(initGlobe, 100);
+            
+            // Fix for Globe rendering size (Wait for UI to render display:block)
+            if(pageId === 'contact-us') {
+                setTimeout(() => {
+                    if(!globeInit) initGlobe();
+                }, 50);
+            }
         }
 
         // Modals
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModals() { document.querySelectorAll('.modal').forEach(el => el.classList.remove('active')); }
+        
+        // Gallery Lightbox
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox(e) {
+            // Close only if clicked outside the image or on the close button
+            if(e.target.id === 'lightbox' || e.target.tagName === 'BUTTON') {
+                document.getElementById('lightbox').classList.remove('active');
+            }
+        }
 
-        // Form Submit with Success Animation
+        // Form Submit handling
         document.getElementById('joinForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btnText = document.getElementById('btnText');
@@ -254,12 +354,10 @@
                     body: JSON.stringify(data)
                 });
                 
-                // Show Success Animation
                 document.getElementById('success-screen').classList.add('active');
                 document.getElementById('joinForm').reset();
                 btnText.innerText = "Join Ashram";
                 
-                // Wait for 3.5 seconds, then hide animation and show guidelines
                 setTimeout(() => {
                     document.getElementById('success-screen').classList.remove('active');
                     showPage('guidelines');
