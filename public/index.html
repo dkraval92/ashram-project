@@ -38,9 +38,9 @@
 </head>
 <body class="antialiased">
 
-    <!-- Highly Stable Audio Link (No custom volume, controlled by device hardware) -->
+    <!-- LOCAL GITHUB MP3 FILE (Aapka idea) -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Meditation_-_Ambient_Music.ogg" type="audio/ogg">
+        <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Welcome Entry Screen -->
@@ -160,15 +160,101 @@
                         </ul>
                     </div>
                 </div>
-                <!-- Forced Height and min-width for PC foolproof rendering -->
                 <div class="w-full md:w-1/2 rounded-xl overflow-hidden border border-gray-800 bg-gray-900 flex justify-center items-center" style="height: 450px;" id="globe-container">
                     <!-- Globe loads here -->
                 </div>
             </div>
         </div>
+
+        <!-- JOIN FORM -->
+        <div id="join" class="page-section max-w-xl mx-auto px-6 mt-10">
+            <div class="bg-gray-900 p-8 md:p-10 rounded-xl shadow-2xl border border-gray-800">
+                <h2 class="text-3xl md:text-4xl text-gold mb-8 serif text-center">Initiate Your Journey</h2>
+                <form id="joinForm" class="space-y-5">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
+                        <input type="text" id="name" required class="auto-cap w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
+                        <input type="email" id="email" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Contact Number</label>
+                        <input type="text" id="contactNum" required class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-gray-500 mb-2">Select Path</label>
+                        <select id="program" class="w-full p-3 bg-black border border-gray-700 text-white rounded focus:outline-none focus:border-gold">
+                            <option>Vipassana Maun (7 Days)</option>
+                            <option>Dynamic Catharsis (3 Days)</option>
+                            <option>Zen & Tea (5 Days)</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="submitBtn" class="w-full bg-gold text-black font-bold p-4 uppercase tracking-widest hover:bg-white transition flex justify-center mt-4">
+                        <span id="btnText">Join Ashram</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- GUIDELINES -->
+        <div id="guidelines" class="page-section max-w-4xl mx-auto px-6 mt-10">
+            <h2 class="text-4xl md:text-5xl text-gold mb-8 serif text-center italic">Welcome to the Inner Circle</h2>
+            <div class="bg-gray-900 p-6 md:p-8 rounded-lg border border-gray-800 space-y-6 text-sm md:text-base">
+                <h3 class="text-2xl md:text-3xl text-white serif border-b border-gray-800 pb-2">What to Bring</h3>
+                <ul class="list-disc pl-5 text-gray-400 space-y-2">
+                    <li>Loose, comfortable clothing (Maroon or White robes provided).</li>
+                    <li>A water bottle and personal organic toiletries.</li>
+                    <li>Drop your mobile phones, laptops, and books at the reception (Mandatory).</li>
+                </ul>
+                <h3 class="text-2xl md:text-3xl text-white serif border-b border-gray-800 pb-2 mt-8">Ashram Services (Seva)</h3>
+                <ul class="list-disc pl-5 text-gray-400 space-y-2">
+                    <li>Pure organic sattvic meals served 3 times a day.</li>
+                    <li>Personalized spiritual counseling with Swamis.</li>
+                    <li>Access to the Zen Library, Bamboo Forest, and Silent Lake.</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <!-- MODALS & LIGHTBOX -->
+    <!-- MODALS -->
+    <div id="modal-vipassana" class="modal fixed inset-0 items-center justify-center p-4">
+        <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
+            <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=1000" onerror="fixImage(this)" class="w-full h-48 md:h-64 object-cover opacity-80">
+            <div class="p-6 md:p-8">
+                <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Vipassana Maun</h3>
+                <p class="text-gray-300 mb-6 leading-relaxed">Absolute silence. No eye contact, no gestures. You sit, you breathe, and you watch the mind dissolve.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black uppercase tracking-widest text-sm">Join This Path</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-dynamic" class="modal fixed inset-0 items-center justify-center p-4">
+        <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
+            <img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1000" onerror="fixImage(this)" class="w-full h-48 md:h-64 object-cover opacity-80">
+            <div class="p-6 md:p-8">
+                <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Dynamic Catharsis</h3>
+                <p class="text-gray-300 mb-6 leading-relaxed">A chaotic, fast-paced meditation designed to break the physical and psychological armor of modern humans.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black uppercase tracking-widest text-sm">Join This Path</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-zen" class="modal fixed inset-0 items-center justify-center p-4">
+        <div class="bg-black max-w-2xl w-full rounded-xl border border-gold overflow-hidden relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModals()" class="absolute top-3 right-4 text-white hover:text-gold text-4xl z-10">&times;</button>
+            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000" onerror="fixImage(this)" class="w-full h-48 md:h-64 object-cover opacity-80">
+            <div class="p-6 md:p-8">
+                <h3 class="text-3xl md:text-4xl text-gold serif mb-4">Zen & Tea</h3>
+                <p class="text-gray-300 mb-6 leading-relaxed">Experience the profound depth of ordinary actions. Sipping tea becomes a meditation.</p>
+                <button onclick="closeModals(); showPage('join')" class="border border-gold text-gold px-6 py-2 hover:bg-gold hover:text-black uppercase tracking-widest text-sm">Join This Path</button>
+            </div>
+        </div>
+    </div>
+
     <div id="lightbox" class="modal fixed inset-0 items-center justify-center p-4" onclick="closeLightbox(event)">
         <button class="absolute top-4 right-6 text-white hover:text-gold text-5xl z-20">&times;</button>
         <img id="lightbox-img" src="" class="max-h-[85vh] max-w-[95vw] object-contain border border-gold rounded shadow-2xl relative z-10">
@@ -180,19 +266,17 @@
             img.src = "https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=800"; 
         }
 
-        // --- AUDIO LOGIC (Controlled strictly by Hardware Buttons) ---
+        // --- AUDIO LOGIC (Local File) ---
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('music-indicator');
 
         function enterExperience() {
             document.getElementById('welcome-overlay').style.display = 'none';
-            // Play audio and catch any browser blocking errors
             bgMusic.play().then(() => {
                 musicBtn.innerText = '🔊';
             }).catch(e => {
-                console.error("Browser blocked autoplay:", e);
+                console.error("Autoplay issue:", e);
                 musicBtn.innerText = '🔇';
-                alert("Please tap the 🔇 icon at bottom right to start music.");
             });
         }
 
@@ -212,19 +296,18 @@
             menu.classList.toggle('flex');
         }
 
-        // --- GLOBE LOGIC (100% PC Fix with Forced Math) ---
+        // --- GLOBE LOGIC ---
         let world;
         function initGlobe() {
             const globeDiv = document.getElementById('globe-container');
             if(!globeDiv) return;
             globeDiv.innerHTML = ""; 
             
-            // Strictly calculate width. If invisible (0), use screen width math.
             let w = globeDiv.clientWidth;
             if(w === 0) {
                 w = window.innerWidth > 768 ? (window.innerWidth / 2) - 50 : window.innerWidth - 40;
             }
-            const h = 450; // Fixed height
+            const h = 450;
             
             world = Globe()(globeDiv)
                 .width(w)
@@ -269,6 +352,38 @@
                 document.getElementById('lightbox').classList.remove('active');
             }
         }
+
+        document.getElementById('joinForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btnText = document.getElementById('btnText');
+            btnText.innerText = "Processing...";
+            
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                contact: document.getElementById('contactNum').value,
+                program: document.getElementById('program').value
+            };
+
+            try {
+                const response = await fetch('/api/join', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                document.getElementById('success-screen').classList.add('active');
+                document.getElementById('joinForm').reset();
+                btnText.innerText = "Join Ashram";
+                
+                setTimeout(() => {
+                    document.getElementById('success-screen').classList.remove('active');
+                    showPage('guidelines');
+                }, 3500);
+            } catch (err) {
+                btnText.innerText = "Error. Try Again.";
+            }
+        });
     </script>
 </body>
 </html>
