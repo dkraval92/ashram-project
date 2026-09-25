@@ -32,9 +32,16 @@
 
         .globe-marker { font-size: 28px; text-shadow: 0 0 15px #d4af37; cursor: pointer; transform: translate(-50%, -50%); transition: transform 0.3s; }
         .globe-marker:hover { transform: translate(-50%, -50%) scale(1.3); }
+
+        /* Music indicator icon */
+        #music-indicator { position: fixed; bottom: 20px; right: 20px; z-index: 100; opacity: 0.5; transition: opacity 0.3s; cursor: pointer;}
+        #music-indicator:hover { opacity: 1; }
     </style>
 </head>
 <body class="antialiased">
+
+    <!-- Music Indicator -->
+    <div id="music-indicator" class="text-gold text-2xl" onclick="toggleMusic()" title="Toggle Music">🔈</div>
 
     <!-- Navigation -->
     <nav class="bg-black/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-800 h-[76px] flex items-center">
@@ -111,9 +118,9 @@
         <div id="gallery" class="page-section max-w-7xl mx-auto px-6 mt-10">
             <h2 class="text-4xl md:text-5xl text-gold mb-10 serif text-center border-b border-gray-800 pb-4">Ashram Glimpses</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
-                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1510797215324-95aa89f43c33?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
+                <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1447452001602-7090c7ab2db3?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
                 
                 <img onclick="openLightbox(this.src)" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800" class="w-full h-40 md:h-56 object-cover rounded cursor-pointer hover:opacity-75 transition border border-gray-800">
@@ -147,7 +154,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="w-full md:w-1/2 h-[450px] rounded-xl overflow-hidden border border-gray-800 bg-gray-900 flex justify-center items-center" id="globe-container">
+                <!-- Yahan explicit width aur height set hai taaki PC me problem na ho -->
+                <div class="w-full md:w-1/2 min-h-[450px] rounded-xl overflow-hidden border border-gray-800 bg-gray-900 flex justify-center items-center" id="globe-container">
                     <!-- Globe loads here -->
                 </div>
             </div>
@@ -248,67 +256,87 @@
     </div>
 
     <script>
+        // --- 1. AUDIO LOGIC (Bamboo Flute) ---
+        const bgMusic = new Audio('https://ia800305.us.archive.org/30/items/meditation-music-bamboo-flute/meditation-music-bamboo-flute.mp3');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.2; // 20% Volume
+        let musicStarted = false;
+
+        // Play audio on very first user interaction (required by browsers)
+        document.body.addEventListener('click', () => {
+            if(!musicStarted) {
+                bgMusic.play().catch(e => console.log("Audio play prevented"));
+                musicStarted = true;
+                document.getElementById('music-indicator').innerText = '🔊';
+            }
+        }, { once: true });
+
+        function toggleMusic() {
+            if(bgMusic.paused) {
+                bgMusic.play();
+                document.getElementById('music-indicator').innerText = '🔊';
+            } else {
+                bgMusic.pause();
+                document.getElementById('music-indicator').innerText = '🔈';
+            }
+        }
+
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
             menu.classList.toggle('flex');
         }
 
-        let globeInit = false;
+        // --- 2. GLOBE LOGIC (100% PC Fix) ---
+        let world;
         function initGlobe() {
             const globeDiv = document.getElementById('globe-container');
-            if(globeInit) return;
             
-            // SMART CHECKER: Ye lagatar check karega jab tak width > 0 na ho jaye
-            function renderWhenReady() {
-                const width = globeDiv.clientWidth;
-                const height = globeDiv.clientHeight;
+            // Container ki HTML ko completely clear kar do har baar taaki fresh load ho
+            globeDiv.innerHTML = ""; 
+            
+            const width = globeDiv.clientWidth || 500; // Fallback for PC
+            const height = globeDiv.clientHeight || 450; // Fallback for PC
+            
+            world = Globe()(globeDiv)
+                .width(width)
+                .height(height)
+                .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
+                .backgroundColor('rgba(0,0,0,0)')
+                .htmlElementsData([
+                    {lat: 30.0869, lng: 78.2676}, 
+                    {lat: 18.5204, lng: 73.8567}, 
+                    {lat: -8.4095, lng: 115.1889}, 
+                    {lat: 36.7783, lng: -119.4179} 
+                ])
+                .htmlElement(d => {
+                    const el = document.createElement('div');
+                    el.innerHTML = '🧘🏽‍♂️'; 
+                    el.className = 'globe-marker';
+                    return el;
+                });
                 
-                if (width === 0 || height === 0) {
-                    setTimeout(renderWhenReady, 100); // 100ms baad wapas check karo
-                    return;
-                }
-                
-                globeDiv.innerHTML = ""; 
-                const world = Globe()(globeDiv)
-                    .width(width)
-                    .height(height)
-                    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
-                    .backgroundColor('rgba(0,0,0,0)')
-                    .htmlElementsData([
-                        {lat: 30.0869, lng: 78.2676}, // Rishikesh
-                        {lat: 18.5204, lng: 73.8567}, // Pune
-                        {lat: -8.4095, lng: 115.1889}, // Bali
-                        {lat: 36.7783, lng: -119.4179} // California
-                    ])
-                    .htmlElement(d => {
-                        const el = document.createElement('div');
-                        el.innerHTML = '🧘🏽‍♂️'; 
-                        el.className = 'globe-marker';
-                        return el;
-                    });
-                    
-                world.controls().autoRotate = true;
-                world.controls().autoRotateSpeed = 2;
-                world.controls().enableZoom = false; 
-                globeInit = true;
-                
-                window.addEventListener('resize', () => {
+            world.controls().autoRotate = true;
+            world.controls().autoRotateSpeed = 2;
+            world.controls().enableZoom = false; 
+            
+            window.addEventListener('resize', () => {
+                if(world) {
                     world.width(globeDiv.clientWidth);
                     world.height(globeDiv.clientHeight);
-                });
-            }
-            
-            renderWhenReady();
+                }
+            });
         }
 
+        // --- 3. PAGE NAVIGATION ---
         function showPage(pageId) {
             document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0);
             
+            // Jab contact khule, globe ko explicit delay ke saath initialize karo
             if(pageId === 'contact-us') {
-                initGlobe(); // Ab delay ki zarurat nahi kyuki check function bana diya hai
+                setTimeout(initGlobe, 100); 
             }
         }
 
