@@ -3,117 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ananda Ashram | Find Your Inner Peace</title>
+    <title>Ananda Ashram | The Inner Journey</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Lato', sans-serif; background-color: #faf9f6; }
-        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
-        .bg-maroon { background-color: #5C001E; }
-        .text-maroon { color: #5C001E; }
-        .page-section { display: none; animation: fadeIn 0.5s; }
-        .page-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Spiritual & Dynamic Theme Colors */
+        :root {
+            --maroon: #6b1414;
+            --saffron: #d97725;
+            --gold: #d4af37;
+            --cream: #fbf9f6;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--cream);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, .spiritual-font { 
+            font-family: 'Cormorant Garamond', serif; 
+        }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 1.2s ease-out forwards; }
+        .slide-up { animation: slideUp 1s ease-out forwards; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Image Ken Burns Effect */
+        .hero-bg {
+            animation: kenBurns 25s infinite alternate ease-in-out;
+            transform-origin: center center;
+        }
+
+        @keyframes kenBurns {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        /* Floating Lotus/Elements Effect */
+        .float { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Page Transitions */
+        .page-section { 
+            display: none; 
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .page-section.active { 
+            display: block; 
+            opacity: 1;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Custom Inputs */
+        .spiritual-input {
+            border: none;
+            border-bottom: 2px solid #ccc;
+            background: transparent;
+            border-radius: 0;
+            transition: all 0.3s;
+        }
+        .spiritual-input:focus {
+            outline: none;
+            border-bottom: 2px solid var(--saffron);
+            box-shadow: 0 10px 10px -10px rgba(217, 119, 37, 0.2);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, var(--maroon), var(--saffron));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
-<body class="text-gray-800">
-    <!-- Navigation -->
-    <nav class="bg-maroon text-white p-6 shadow-lg">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl tracking-widest uppercase">Ananda</h1>
-            <div class="space-x-6 text-sm tracking-wide">
-                <button onclick="showPage('home')" class="hover:text-amber-200 uppercase">Home</button>
-                <button onclick="showPage('about')" class="hover:text-amber-200 uppercase">Philosophy</button>
-                <button onclick="showPage('programs')" class="hover:text-amber-200 uppercase">Retreats</button>
-                <button onclick="showPage('contact')" class="bg-amber-100 text-maroon px-4 py-2 rounded hover:bg-white uppercase">Join Us</button>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Premium Navigation -->
+    <nav class="fixed w-full z-50 bg-[#fbf9f6]/90 backdrop-blur-md shadow-sm border-b border-orange-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-3xl spiritual-font font-bold text-gradient tracking-widest cursor-pointer" onclick="showPage('home')">ANANDA</h1>
+            <div class="hidden md:flex space-x-8 text-sm font-medium tracking-widest uppercase text-gray-600">
+                <button onclick="showPage('home')" class="hover:text-[#d97725] transition duration-300">Home</button>
+                <button onclick="showPage('about')" class="hover:text-[#d97725] transition duration-300">Philosophy</button>
+                <button onclick="showPage('programs')" class="hover:text-[#d97725] transition duration-300">Programs</button>
+                <button onclick="showPage('contact')" class="bg-gradient-to-r from-[#6b1414] to-[#8a1c1c] text-white px-6 py-2 rounded-full hover:shadow-lg hover:shadow-red-900/30 transform hover:-translate-y-0.5 transition duration-300">Join Ashram</button>
             </div>
         </div>
     </nav>
 
-    <!-- Page 1: Home -->
-    <div id="home" class="page-section active max-w-6xl mx-auto mt-16 p-6 text-center">
-        <h2 class="text-5xl text-maroon mb-6 serif italic">Journey Inward.</h2>
-        <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">Discover silence, meditation, and true transformation at our sanctuary. Inspired by ancient wisdom, designed for the modern soul.</p>
-        <img src="https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?auto=format&fit=crop&q=80&w=1000" alt="Meditation" class="w-full h-96 object-cover rounded-lg shadow-xl grayscale contrast-125 hover:grayscale-0 transition duration-700">
+    <!-- Spacer for fixed nav -->
+    <div class="h-20"></div>
+
+    <!-- Page 1: Dynamic Home -->
+    <div id="home" class="page-section active relative w-full h-[85vh] overflow-hidden flex items-center justify-center">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1608603700140-5a3e1c6b5bc4?q=80&w=2000&auto=format&fit=crop" alt="Meditation" class="w-full h-full object-cover hero-bg brightness-75 contrast-125 sepia-[.2]">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#fbf9f6]"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="relative z-10 text-center px-4 slide-up">
+            <h2 class="text-6xl md:text-8xl text-white spiritual-font italic mb-6 drop-shadow-lg">Awaken the Soul.</h2>
+            <p class="text-lg md:text-2xl text-orange-50 font-light mb-10 max-w-2xl mx-auto tracking-wide drop-shadow-md">Discover the sound of silence. A sanctuary for transformation, healing, and pure awareness.</p>
+            <button onclick="showPage('about')" class="text-white border border-white/50 px-8 py-3 rounded-full font-light tracking-widest uppercase hover:bg-white hover:text-black transition duration-500 backdrop-blur-sm">Begin Journey</button>
+        </div>
     </div>
 
-    <!-- Page 2: About -->
-    <div id="about" class="page-section max-w-4xl mx-auto mt-16 p-6">
-        <h2 class="text-4xl text-maroon mb-6 serif text-center border-b pb-4">Our Philosophy</h2>
-        <p class="text-lg leading-relaxed text-gray-700 mt-8 text-center">Meditation is not a doing, it is a happening. At Ananda, we provide the space, the silence, and the guidance for you to drop the mind and just be. No dogmas, no beliefs—only pure experience.</p>
-    </div>
-
-    <!-- Page 3: Programs -->
-    <div id="programs" class="page-section max-w-6xl mx-auto mt-16 p-6">
-        <h2 class="text-4xl text-maroon mb-10 serif text-center">Upcoming Retreats</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-8 shadow-lg border-t-4 border-maroon">
-                <h3 class="text-2xl mb-2 serif">Vipassana Silence</h3>
-                <p class="text-sm text-gray-500 mb-4">7 Days • Silent Meditation</p>
-                <p>Observe the breath and purify the mind through absolute silence.</p>
+    <!-- Page 2: Philosophy -->
+    <div id="about" class="page-section max-w-5xl mx-auto mt-12 p-8 min-h-screen">
+        <div class="text-center mb-16 slide-up">
+            <h2 class="text-5xl text-gradient spiritual-font mb-4">The Pathless Path</h2>
+            <div class="w-24 h-1 bg-[#d4af37] mx-auto rounded"></div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-12 items-center">
+            <div class="w-full md:w-1/2 slide-up" style="animation-delay: 0.2s;">
+                <p class="text-xl leading-relaxed text-gray-700 spiritual-font italic mb-6">"Meditation is not a doing, it is a happening. When the doer disappears, meditation descends."</p>
+                <p class="text-gray-600 font-light leading-loose">At Ananda, we provide the energetic field for your inner blossoming. There are no rigid dogmas, no beliefs to swallow—only the pure, unadulterated experience of your own existence. Drop your masks at the gate and step into the void.</p>
             </div>
-            <div class="bg-white p-8 shadow-lg border-t-4 border-maroon">
-                <h3 class="text-2xl mb-2 serif">Dynamic Release</h3>
-                <p class="text-sm text-gray-500 mb-4">3 Days • Active Meditation</p>
-                <p>Break physical and mental blocks through movement and catharsis.</p>
-            </div>
-            <div class="bg-white p-8 shadow-lg border-t-4 border-maroon">
-                <h3 class="text-2xl mb-2 serif">Zen Archery</h3>
-                <p class="text-sm text-gray-500 mb-4">5 Days • Focus & Flow</p>
-                <p>Learn to act without the actor. Precision through pure awareness.</p>
+            <div class="w-full md:w-1/2 relative float">
+                <div class="absolute inset-0 bg-[#d97725] rounded-full blur-3xl opacity-20"></div>
+                <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?q=80&w=1000&auto=format&fit=crop" class="rounded-t-full rounded-b-md shadow-2xl relative z-10 object-cover h-[400px] w-full" alt="Lotus">
             </div>
         </div>
     </div>
 
-    <!-- Page 4: Contact/Join (Database Integration) -->
-    <div id="contact" class="page-section max-w-lg mx-auto mt-16 p-8 bg-white shadow-2xl rounded-lg">
-        <h2 class="text-3xl text-maroon mb-6 serif text-center">Begin Your Journey</h2>
-        <form id="joinForm" class="space-y-6">
-            <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
-                <input type="text" id="name" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-maroon">
+    <!-- Page 3: Programs -->
+    <div id="programs" class="page-section max-w-7xl mx-auto mt-12 p-8 min-h-screen">
+        <div class="text-center mb-16 slide-up">
+            <h2 class="text-5xl text-gradient spiritual-font mb-4">Sacred Offerings</h2>
+            <div class="w-24 h-1 bg-[#d4af37] mx-auto rounded"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden group hover:-translate-y-2 transition duration-500 slide-up">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1528315651810-189fccbe5085?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="p-8 relative">
+                    <div class="absolute -top-6 right-6 bg-[#6b1414] text-white w-12 h-12 flex items-center justify-center rounded-full font-bold shadow-lg">7D</div>
+                    <h3 class="text-2xl spiritual-font font-bold text-[#6b1414] mb-2">Vipassana Maun</h3>
+                    <p class="text-xs text-[#d97725] uppercase tracking-widest font-bold mb-4">Silent Retreat</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">Seven days of complete silence. Observe the breath, purify the mind, and dissolve the ego in the profound stillness.</p>
+                </div>
             </div>
-            <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-                <input type="email" id="email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-maroon">
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden group hover:-translate-y-2 transition duration-500 slide-up" style="animation-delay: 0.2s;">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1517036424368-80f08e4f16bc?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 filter sepia-[.3]">
+                </div>
+                <div class="p-8 relative">
+                    <div class="absolute -top-6 right-6 bg-[#d97725] text-white w-12 h-12 flex items-center justify-center rounded-full font-bold shadow-lg">3D</div>
+                    <h3 class="text-2xl spiritual-font font-bold text-[#6b1414] mb-2">Dynamic Catharsis</h3>
+                    <p class="text-xs text-[#d97725] uppercase tracking-widest font-bold mb-4">Active Meditation</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">Release suppressed emotions through intense movement, chaotic breathing, and celebration. Empty the vessel completely.</p>
+                </div>
             </div>
-            <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2">Select Program</label>
-                <select id="program" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-maroon">
-                    <option>Vipassana Silence</option>
-                    <option>Dynamic Release</option>
-                    <option>Zen Archery</option>
-                </select>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden group hover:-translate-y-2 transition duration-500 slide-up" style="animation-delay: 0.4s;">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1601058269986-e3dce4a2aee8?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="p-8 relative">
+                    <div class="absolute -top-6 right-6 bg-[#d4af37] text-white w-12 h-12 flex items-center justify-center rounded-full font-bold shadow-lg shadow-yellow-600/30">5D</div>
+                    <h3 class="text-2xl spiritual-font font-bold text-[#6b1414] mb-2">Zen & Tea</h3>
+                    <p class="text-xs text-[#d97725] uppercase tracking-widest font-bold mb-4">Mindful Living</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">Learn to turn ordinary acts into meditation. From brewing tea to walking in the garden, discover the sacred in the mundane.</p>
+                </div>
             </div>
-            <button type="submit" class="w-full bg-maroon text-white p-4 uppercase tracking-widest hover:bg-red-900 transition">Register Now</button>
-            <p id="message" class="text-center mt-4 text-green-700 font-bold hidden"></p>
-        </form>
+        </div>
     </div>
 
+    <!-- Page 4: Registration Form -->
+    <div id="contact" class="page-section max-w-lg mx-auto mt-20 p-8 mb-20">
+        <div class="bg-white p-10 rounded-2xl shadow-2xl relative overflow-hidden slide-up border border-orange-50">
+            <!-- Decorative Mandala/Circle -->
+            <div class="absolute -top-16 -right-16 w-32 h-32 bg-[#d97725] opacity-10 rounded-full"></div>
+            <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-[#6b1414] opacity-10 rounded-full"></div>
+
+            <div class="text-center mb-10 relative z-10">
+                <h2 class="text-4xl text-[#6b1414] spiritual-font font-bold">Step Inward</h2>
+                <p class="text-sm text-gray-500 mt-2">Reserve your space in the sanctuary.</p>
+            </div>
+
+            <form id="joinForm" class="space-y-8 relative z-10">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Seeker's Name</label>
+                    <!-- text-transform: capitalize ensures first letters are capital -->
+                    <input type="text" id="name" required class="spiritual-input w-full p-2 text-lg capitalize text-gray-800" placeholder="Aapka shubh naam">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Email Address</label>
+                    <input type="email" id="email" required class="spiritual-input w-full p-2 text-lg text-gray-800" placeholder="your@email.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Choose Path</label>
+                    <select id="program" class="spiritual-input w-full p-2 text-lg text-gray-800 bg-transparent cursor-pointer">
+                        <option>Vipassana Maun (7 Days)</option>
+                        <option>Dynamic Catharsis (3 Days)</option>
+                        <option>Zen & Tea (5 Days)</option>
+                    </select>
+                </div>
+                <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-[#6b1414] to-[#8a1c1c] text-white p-4 rounded uppercase tracking-widest font-bold shadow-lg hover:shadow-xl hover:from-[#5a1111] hover:to-[#731717] transition-all transform hover:-translate-y-1">
+                    Begin Initiation
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Page 5: Success / Post-Join Details (Dynamically shown) -->
+    <div id="success" class="page-section max-w-4xl mx-auto mt-12 p-8 mb-20 hidden">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-orange-100 slide-up">
+            <!-- Success Header -->
+            <div class="bg-gradient-to-r from-[#6b1414] to-[#8a1c1c] p-10 text-center text-white relative">
+                <div class="w-20 h-20 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-4 backdrop-blur-md">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-4xl spiritual-font font-bold mb-2">Hari Om, <span id="successName">Seeker</span></h2>
+                <p class="text-lg font-light opacity-90">Aapka registration safal hua. Swagat hai shanti ke marg par.</p>
+            </div>
+
+            <!-- Details Section -->
+            <div class="p-10 md:p-14">
+                <p class="text-center text-gray-600 italic mb-10 text-lg">"Your journey of a thousand miles has just begun inward."</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- What to Bring -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-8 h-8 rounded bg-orange-100 flex items-center justify-center text-[#d97725]">🎒</div>
+                            <h3 class="text-2xl spiritual-font text-[#6b1414] font-bold border-b-2 border-orange-100 pb-1 w-full">Kya Sath Layein?</h3>
+                        </div>
+                        <ul class="space-y-4 text-gray-600 text-sm">
+                            <li class="flex gap-3"><span class="text-[#d4af37]">✦</span> <b>Shwet Vastra:</b> 3-4 jode dheele safed kapde (Loose white robes/clothes).</li>
+                            <li class="flex gap-3"><span class="text-[#d4af37]">✦</span> <b>Jal Patra:</b> Ek personal copper ya steel ki water bottle.</li>
+                            <li class="flex gap-3"><span class="text-[#d4af37]">✦</span> <b>Swachhata:</b> Personal toiletries (bina tez khushbu wale).</li>
+                            <li class="flex gap-3"><span class="text-[#d4af37]">✦</span> <b>Mano-dasha:</b> Ek khula dimaag aur samarpit bhav.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Services & Rules -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-8 h-8 rounded bg-orange-100 flex items-center justify-center text-[#d97725]">🪷</div>
+                            <h3 class="text-2xl spiritual-font text-[#6b1414] font-bold border-b-2 border-orange-100 pb-1 w-full">Ashram Sevaein & Niyam</h3>
+                        </div>
+                        <ul class="space-y-4 text-gray-600 text-sm">
+                            <li class="flex gap-3"><span class="text-[#d97725]">❖</span> <b>Bhojan:</b> 2 samay ka shuddh Satvik aur Ayurvedic aahar.</li>
+                            <li class="flex gap-3"><span class="text-[#d97725]">❖</span> <b>Nivaas:</b> Hawa-dar, shant cottage aur shared dormitories.</li>
+                            <li class="flex gap-3"><span class="text-[#d97725]">❖</span> <b>Digital Detox:</b> Phones ashram office me jama rahenge.</li>
+                            <li class="flex gap-3"><span class="text-[#d97725]">❖</span> <b>Maun (Silence):</b> Dhyaan kaksh (Meditation hall) aur dining area me 100% maun anivarya hai.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <button onclick="showPage('home')" class="text-[#6b1414] border border-[#6b1414] px-8 py-2 rounded-full hover:bg-[#6b1414] hover:text-white transition duration-300">Wapas Aashram Darshan Pe Jayein</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#1a0f0f] text-gray-400 py-10 text-center text-sm">
+        <p class="spiritual-font text-2xl text-[#d4af37] mb-2">ANANDA</p>
+        <p>© 2024 Ananda Ashram. Breathe in. Breathe out.</p>
+    </footer>
+
     <script>
+        // Smooth Navigation Logic
         function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.remove('active');
+                setTimeout(() => el.style.display = 'none', 300); // fade out time
+            });
+            
+            setTimeout(() => {
+                const target = document.getElementById(pageId);
+                target.style.display = 'block';
+                // Trigger reflow
+                void target.offsetWidth;
+                target.classList.add('active');
+            }, 300);
         }
 
+        // Form Submit API Call & Dynamic Transition
         document.getElementById('joinForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+            
+            const nameInput = document.getElementById('name').value;
+            // Format name to ensure JS capitalization matches CSS visualization
+            const formattedName = nameInput.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+
             const data = {
-                name: document.getElementById('name').value,
+                name: formattedName,
                 email: document.getElementById('email').value,
                 program: document.getElementById('program').value
             };
-            const response = await fetch('/api/join', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const result = await response.json();
-            if(response.ok) {
-                const msgEl = document.getElementById('message');
-                msgEl.innerText = result.message;
-                msgEl.classList.remove('hidden');
-                document.getElementById('joinForm').reset();
+
+            try {
+                const response = await fetch('/api/join', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                if(response.ok) {
+                    // Reset form
+                    document.getElementById('joinForm').reset();
+                    btn.innerText = "Begin Initiation";
+                    btn.disabled = false;
+                    
+                    // Update Success Page Name
+                    document.getElementById('successName').innerText = formattedName;
+                    
+                    // Show Success Page
+                    showPage('success');
+                }
+            } catch (error) {
+                alert("Koi samasya aayi. Kripaya dobara koshish karein.");
+                btn.innerText = "Begin Initiation";
+                btn.disabled = false;
             }
         });
     </script>
