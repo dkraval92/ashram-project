@@ -1,0 +1,10 @@
+{
+  "name": "ananda-ashram",
+  "version": "1.0.0",
+  "description": "3-tier ashram website",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
+  }
+}
