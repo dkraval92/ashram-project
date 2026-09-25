@@ -4,10 +4,12 @@ services:
     build: .
     ports:
       - "80:3000"
+    restart: always    # <--- Yeh add karna hai
     depends_on:
       - mongo
   mongo:
     image: mongo:latest
+    restart: always    # <--- Yeh add karna hai
     ports:
       - "27017:27017"
     volumes:
