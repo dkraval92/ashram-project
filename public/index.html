@@ -33,30 +33,33 @@
         .globe-marker { font-size: 28px; text-shadow: 0 0 15px #d4af37; cursor: pointer; transform: translate(-50%, -50%); transition: transform 0.3s; }
         .globe-marker:hover { transform: translate(-50%, -50%) scale(1.3); }
 
-        /* Premium Welcome Screen for Audio Policy Bypass */
         #welcome-overlay { position: fixed; inset: 0; background: #050505; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1s ease; }
-        #music-indicator { position: fixed; bottom: 20px; right: 20px; z-index: 100; opacity: 0.5; transition: opacity 0.3s; cursor: pointer; font-size: 24px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 50%; border: 1px solid #d4af37;}
-        #music-indicator:hover { opacity: 1; }
+        
+        /* Volume Slider CSS */
+        input[type="range"] { accent-color: #d4af37; }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Premium Audio Object -->
+    <!-- HD MP3 Music -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Meditation_-_Ambient_Music.ogg" type="audio/ogg">
+        <source src="https://ia903204.us.archive.org/17/items/cd_meditation-flute_david-philipson/disc1/01.-david-philipson-meditation-flute.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Welcome Entry Screen (Bypasses Browser Audio Blocks) -->
+    <!-- Welcome Entry Screen -->
     <div id="welcome-overlay">
         <h1 class="text-5xl md:text-7xl text-gold serif mb-4 tracking-widest">ANANDA</h1>
-        <p class="text-gray-400 tracking-widest uppercase text-sm mb-12">Turn on your volume</p>
+        <p class="text-gray-400 tracking-widest uppercase text-sm mb-12">Connect your speakers / headphones</p>
         <button onclick="enterExperience()" class="border border-gold text-gold px-10 py-4 hover:bg-gold hover:text-black transition duration-500 uppercase tracking-widest text-sm font-bold">
             Enter Experience
         </button>
     </div>
 
-    <!-- Music Indicator -->
-    <div id="music-indicator" onclick="toggleMusic()" title="Toggle Music">🔊</div>
+    <!-- Music Indicator & Volume Control -->
+    <div class="fixed bottom-6 right-6 z-50 flex items-center gap-4 bg-black/80 p-3 rounded-full border border-gold backdrop-blur-md shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+        <span id="music-indicator" class="cursor-pointer text-2xl hover:scale-110 transition" onclick="toggleMusic()" title="Mute/Unmute">🔊</span>
+        <input type="range" id="vol-slider" min="0" max="1" step="0.01" value="0.5" class="w-24 cursor-pointer" title="Adjust Volume">
+    </div>
 
     <!-- Navigation -->
     <nav class="bg-black/90 backdrop-blur-md fixed w-full top-0 z-50 border-b border-gray-800 h-[76px] flex items-center">
@@ -105,7 +108,6 @@
         <div id="programs" class="page-section max-w-7xl mx-auto px-6 mt-10">
             <h2 class="text-4xl md:text-5xl text-gold mb-12 serif text-center border-b border-gray-800 pb-4">Sacred Dimensions</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Using onerror fallback to guarantee images load -->
                 <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-gold transition duration-500 group cursor-pointer" onclick="openModal('modal-vipassana')">
                     <div class="overflow-hidden h-56">
                         <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=800" onerror="fixImage(this)" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
@@ -136,7 +138,7 @@
             </div>
         </div>
 
-        <!-- GALLERY (With Fallbacks) -->
+        <!-- GALLERY -->
         <div id="gallery" class="page-section max-w-7xl mx-auto px-6 mt-10">
             <h2 class="text-4xl md:text-5xl text-gold mb-10 serif text-center border-b border-gray-800 pb-4">Ashram Glimpses</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -176,8 +178,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="w-full md:w-1/2 min-h-[450px] rounded-xl overflow-hidden border border-gray-800 bg-gray-900 flex justify-center items-center" id="globe-container">
-                    <!-- Globe loads here -->
+                <div class="w-full md:w-1/2 min-h-[450px] rounded-xl overflow-hidden border border-gray-800 bg-gray-900 relative" id="globe-container">
+                    <!-- Globe loads here. Size enforced via script. -->
                 </div>
             </div>
         </div>
@@ -283,28 +285,43 @@
             img.src = "https://images.unsplash.com/photo-1545389336-cf090694435e?auto=format&fit=crop&w=800"; 
         }
 
-        // AUDIO FIX
+        // --- AUDIO & SLIDER LOGIC ---
         const bgMusic = document.getElementById('bgMusic');
-        bgMusic.volume = 0.2; // 20% Volume
+        const volSlider = document.getElementById('vol-slider');
+        const musicBtn = document.getElementById('music-indicator');
+        
+        // Initial setup
+        bgMusic.volume = volSlider.value; // set to 0.5 (50%)
+
+        // Change volume smoothly when slider moves
+        volSlider.addEventListener('input', (e) => {
+            bgMusic.volume = e.target.value;
+            if(bgMusic.volume > 0) {
+                musicBtn.innerText = '🔊';
+                if(bgMusic.paused) bgMusic.play();
+            } else {
+                musicBtn.innerText = '🔈';
+            }
+        });
 
         function enterExperience() {
-            // Hide welcome screen
             const overlay = document.getElementById('welcome-overlay');
             overlay.style.opacity = '0';
             setTimeout(() => overlay.style.display = 'none', 1000);
             
-            // Play Music
-            bgMusic.play().catch(e => console.log("Audio play blocked by browser settings"));
-            document.getElementById('music-indicator').innerText = '🔊';
+            bgMusic.play().catch(e => console.log(e));
+            musicBtn.innerText = '🔊';
         }
 
         function toggleMusic() {
-            if(bgMusic.paused) {
+            if(bgMusic.paused || bgMusic.volume === 0) {
                 bgMusic.play();
-                document.getElementById('music-indicator').innerText = '🔊';
+                bgMusic.volume = volSlider.value > 0 ? volSlider.value : 0.5;
+                volSlider.value = bgMusic.volume;
+                musicBtn.innerText = '🔊';
             } else {
                 bgMusic.pause();
-                document.getElementById('music-indicator').innerText = '🔈';
+                musicBtn.innerText = '🔈';
             }
         }
 
@@ -314,18 +331,27 @@
             menu.classList.toggle('flex');
         }
 
-        // GLOBE
+        // --- GLOBE LOGIC (Bulletproof PC Fix) ---
         let world;
         function initGlobe() {
             const globeDiv = document.getElementById('globe-container');
+            
+            // Calculate width explicitly, fallback to 600px for PC
+            let w = globeDiv.clientWidth;
+            if(w === 0) w = window.innerWidth > 768 ? 600 : window.innerWidth - 40;
+            const h = globeDiv.clientHeight || 450; 
+
+            if(world) {
+                // If globe exists, just update size
+                world.width(w);
+                world.height(h);
+                return;
+            }
+
             globeDiv.innerHTML = ""; 
-            
-            const width = globeDiv.clientWidth || 500; 
-            const height = globeDiv.clientHeight || 450; 
-            
             world = Globe()(globeDiv)
-                .width(width)
-                .height(height)
+                .width(w)
+                .height(h)
                 .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
                 .backgroundColor('rgba(0,0,0,0)')
                 .htmlElementsData([
@@ -348,7 +374,7 @@
             window.addEventListener('resize', () => {
                 if(world) {
                     world.width(globeDiv.clientWidth);
-                    world.height(globeDiv.clientHeight);
+                    world.height(globeDiv.clientHeight || 450);
                 }
             });
         }
@@ -359,7 +385,10 @@
             window.scrollTo(0, 0);
             
             if(pageId === 'contact-us') {
-                setTimeout(initGlobe, 100); 
+                // Wait for the container to become visible, then force render
+                setTimeout(() => {
+                    initGlobe();
+                }, 150); 
             }
         }
 
